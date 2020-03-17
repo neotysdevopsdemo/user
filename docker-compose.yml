@@ -34,3 +34,7 @@ services:
             - DT_CUSTOM_PROP=app=user-db environment=dev
         ports:
             - "27017:27017"
+networks:
+    default:
+        external:
+            name: TO_REPLACE
