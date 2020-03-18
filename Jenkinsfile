@@ -98,19 +98,7 @@ pipeline {
         }
 
     }
-    /*stage('DT Deploy Event') {
-        when {
-            expression {
-            return env.BRANCH_NAME ==~ 'release/.*' || env.BRANCH_NAME ==~'master'
-            }
-        }
-        steps {
-          container("curl") {
-            // send custom deployment event to Dynatrace
-            sh "curl -X POST \"$DT_TENANT_URL/api/v1/events?Api-Token=$DT_API_TOKEN\" -H \"accept: application/json\" -H \"Content-Type: application/json\" -d \"{ \\\"eventType\\\": \\\"CUSTOM_DEPLOYMENT\\\", \\\"attachRules\\\": { \\\"tagRule\\\" : [{ \\\"meTypes\\\" : [\\\"SERVICE\\\"], \\\"tags\\\" : [ { \\\"context\\\" : \\\"CONTEXTLESS\\\", \\\"key\\\" : \\\"app\\\", \\\"value\\\" : \\\"${env.APP_NAME}\\\" }, { \\\"context\\\" : \\\"CONTEXTLESS\\\", \\\"key\\\" : \\\"environment\\\", \\\"value\\\" : \\\"dev\\\" } ] }] }, \\\"deploymentName\\\":\\\"${env.JOB_NAME}\\\", \\\"deploymentVersion\\\":\\\"${_VERSION}\\\", \\\"deploymentProject\\\":\\\"\\\", \\\"ciBackLink\\\":\\\"${env.BUILD_URL}\\\", \\\"source\\\":\\\"Jenkins\\\", \\\"customProperties\\\": { \\\"Jenkins Build Number\\\": \\\"${env.BUILD_ID}\\\",  \\\"Git commit\\\": \\\"${env.GIT_COMMIT}\\\" } }\" "
-          }
-        }
-    }*/
+
       stage('Start NeoLoad infrastructure') {
 
                                  steps {
@@ -157,21 +145,10 @@ pipeline {
                      -e CONTROLLER_ZONE_ID=defaultzone \
                      -e AS_CODE_FILES=user_neoload.yaml \
                      -e LG_ZONE_IDS=defaultzone:1 \
-                     --network ${APP_NAME} \
+                     --network ${APP_NAME} --user root \
                       neotys/neoload-web-test-launcher:latest"
 
-         /* script {
-              neoloadRun executable: '/home/neoload/neoload/bin/NeoLoadCmd',
-                      project: "$WORKSPACE/test/neoload/load_template/load_template.nlp",
-                      testName: 'FuncCheck_user_${VERSION}_${BUILD_NUMBER}',
-                      testDescription: 'FuncCheck_user_${VERSION}_${BUILD_NUMBER}',
-                      commandLineOption: "-project  $WORKSPACE/test/neoload/user_neoload.yaml -nlweb -L UserLoad=$WORKSPACE/infrastructure/infrastructure/neoload/lg/remote.txt -L Population_Dynatrace_Integration=$WORKSPACE/infrastructure/infrastructure/neoload/lg/local.txt -nlwebToken $NLAPIKEY -variables host=user,port=80",
-                      scenario: 'UserLoad', sharedLicense: [server: 'NeoLoad Demo License', duration: 2, vuCount: 200],
-                      trendGraphs: [
-                              [name: 'Limit test Catalogue API Response time', curve: ['CatalogueList>Actions>Get Catalogue List'], statistic: 'average'],
-                              'ErrorRate'
-                      ]
-          }*/
+
 
       }
     }
