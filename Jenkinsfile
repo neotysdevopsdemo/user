@@ -117,6 +117,8 @@ pipeline {
 
       steps {
           sleep 90
+
+          sh "mkdir $WORKSPACE/test/neoload/load_template/custom-resources/"
           sh "cp $WORKSPACE/monspec/user_anomalieDection.json  $WORKSPACE/test/neoload/load_template/custom-resources/"
 
 
@@ -145,7 +147,7 @@ pipeline {
                      -e CONTROLLER_ZONE_ID=defaultzone \
                      -e AS_CODE_FILES=user_neoload.yaml \
                      -e LG_ZONE_IDS=defaultzone:1 \
-                     --network ${APP_NAME} --user root \
+                     --network ${APP_NAME}  \
                       neotys/neoload-web-test-launcher:latest"
 
 
