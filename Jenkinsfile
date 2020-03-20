@@ -147,7 +147,7 @@ pipeline {
                      -e CONTROLLER_ZONE_ID=defaultzone \
                      -e AS_CODE_FILES=user_neoload.yaml \
                      -e LG_ZONE_IDS=defaultzone:1 \
-                     --network ${APP_NAME}  \
+                     --network ${APP_NAME} --user root \
                       neotys/neoload-web-test-launcher:latest"
 
 
