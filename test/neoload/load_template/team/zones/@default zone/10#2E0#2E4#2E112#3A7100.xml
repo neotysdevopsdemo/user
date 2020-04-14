@@ -1,0 +1,66 @@
+<lg-host citrixSupport="false" hostname="10.0.4.112:7100" loadWeight="1"
+    sapSupport="true" standalone="false" supportWANEmulation="true"
+    uid="0935ea1b-264d-48f4-98a0-2b5c700a7d59" version="6.9.0;build=20190109-2361">
+    <!--****** LG NETWORK INTERFACES ******-->
+    <lg-networkiface description="Hyper-V Virtual Ethernet Adapter"
+        enabled="false" isLoopBack="false" name="eth6">
+        <!--****** LG ADDRESSES ******-->
+        <lg-address enabled="false" hostname="pc039.mshome.net">
+            <ip value="172.20.93.81"/>
+        </lg-address>
+        <lg-address enabled="false" hostname="fe80:0:0:0:5fe:5272:8f55:402c%eth6">
+            <ip value="fe80:0:0:0:5fe:5272:8f55:402c%eth6"/>
+        </lg-address>
+        <!--****** END LG ADDRESSES ******-->
+    </lg-networkiface>
+    <lg-networkiface description="Software Loopback Interface 1"
+        enabled="false" isLoopBack="true" name="lo">
+        <!--****** LG ADDRESSES ******-->
+        <lg-address enabled="false" hostname="127.0.0.1">
+            <ip value="127.0.0.1"/>
+        </lg-address>
+        <lg-address enabled="false" hostname="0:0:0:0:0:0:0:1">
+            <ip value="0:0:0:0:0:0:0:1"/>
+        </lg-address>
+        <!--****** END LG ADDRESSES ******-->
+    </lg-networkiface>
+    <lg-networkiface description="TAP-Windows Adapter V9"
+        enabled="false" isLoopBack="false" name="eth4">
+        <!--****** LG ADDRESSES ******-->
+        <lg-address enabled="false" hostname="fe80:0:0:0:6c53:294:f721:195d%eth4">
+            <ip value="fe80:0:0:0:6c53:294:f721:195d%eth4"/>
+        </lg-address>
+        <!--****** END LG ADDRESSES ******-->
+    </lg-networkiface>
+    <lg-networkiface description="Hyper-V Virtual Ethernet Adapter #2"
+        enabled="false" isLoopBack="false" name="eth29">
+        <!--****** LG ADDRESSES ******-->
+        <lg-address enabled="false" hostname="pc039.intranet.neotys.com">
+            <ip value="172.27.64.1"/>
+        </lg-address>
+        <lg-address enabled="false" hostname="fe80:0:0:0:d576:5d00:c718:96fc%eth29">
+            <ip value="fe80:0:0:0:d576:5d00:c718:96fc%eth29"/>
+        </lg-address>
+        <!--****** END LG ADDRESSES ******-->
+    </lg-networkiface>
+    <lg-networkiface
+        description="Intel(R) Ethernet Connection (2) I219-LM"
+        enabled="false" isLoopBack="false" name="eth0">
+        <!--****** LG ADDRESSES ******-->
+        <lg-address enabled="false" hostname="host.docker.internal">
+            <ip value="10.0.4.112"/>
+        </lg-address>
+        <lg-address enabled="false" hostname="fe80:0:0:0:d152:a07e:73a3:9b96%eth0">
+            <ip value="fe80:0:0:0:d152:a07e:73a3:9b96%eth0"/>
+        </lg-address>
+        <!--****** END LG ADDRESSES ******-->
+    </lg-networkiface>
+    <lg-networkiface description="Hyper-V Virtual Ethernet Adapter #3"
+        enabled="false" isLoopBack="false" name="eth36">
+        <!--****** LG ADDRESSES ******-->
+        <lg-address enabled="false" hostname="pc039.intranet.neotys.com">
+            <ip value="10.0.75.1"/>
+        </lg-address>
+        <!--****** END LG ADDRESSES ******-->
+    </lg-networkiface>
+</lg-host>

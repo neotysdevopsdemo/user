@@ -1,0 +1,6 @@
+<custom-action actionType="DynatraceDeleteAnomalieDetection"
+    isHit="false" name="DynatraceDeleteAnomalieDetection" uid="30bd39f1-ea6e-41d9-abb4-b88ee0a48be6">
+    <custom-action-parameter name="dynatraceApiKey" type="TEXT" value="${dynatraceApiKey}"/>
+    <custom-action-parameter name="dynatraceId" type="TEXT" value="${dynatraceid}"/>
+    <responsePageFileDescription>recorded-responses/res_30bd39f1-ea6e-41d9-abb4-b88ee0a48be6</responsePageFileDescription>
+</custom-action>

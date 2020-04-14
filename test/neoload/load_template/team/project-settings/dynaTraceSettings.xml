@@ -1,0 +1,5 @@
+<dynaTraceSettings dynaTraceEnabled="true"
+    dynatraceHeader="X-Dynatrace-Test" dynatraceType="Dynatrace"
+    logicalNamesEnabled="false" login="admin" password="" port="2020"
+    recordSessionEnabled="false" server="" sessionLockingEnabled="false"
+    ssl="false" systemName="" version="2.X"/>

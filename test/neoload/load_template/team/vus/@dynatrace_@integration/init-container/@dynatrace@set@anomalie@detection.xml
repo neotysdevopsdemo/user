@@ -1,0 +1,9 @@
+<custom-action actionType="DynatraceSetAnomalieDetection" isHit="false"
+    name="DynatraceSetAnomalieDetection" uid="21ece89c-2a29-4dd8-b893-cc53cfadcf9d">
+    <custom-action-parameter name="dynatraceApiKey" type="TEXT" value="${dynatraceApiKey}"/>
+    <custom-action-parameter name="dynatraceId" type="TEXT" value="${dynatraceid}"/>
+    <custom-action-parameter name="tags" type="TEXT" value="${TAGS}"/>
+    <custom-action-parameter name="jsonAnomalieDetectionFile"
+        type="TEXT" value="${NL-CustomResources}/${jsonAnomalieDetectionFile}"/>
+    <responsePageFileDescription>recorded-responses/res_21ece89c-2a29-4dd8-b893-cc53cfadcf9d</responsePageFileDescription>
+</custom-action>
