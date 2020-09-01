@@ -1,7 +1,0 @@
-<custom-action actionType="DynatraceConfiguration" isHit="false"
-    name="DynatraceConfiguration" uid="dc957924-ac08-463f-898d-d8968f1f3031">
-    <custom-action-parameter name="dynatraceApiKey" type="TEXT" value="${dynatraceApiKey}"/>
-    <custom-action-parameter name="dynatraceId" type="TEXT" value="${dynatraceid}"/>
-    <custom-action-parameter name="tags" type="TEXT" value="${TAGS}"/>
-    <responsePageFileDescription>recorded-responses/res_dc957924-ac08-463f-898d-d8968f1f3031</responsePageFileDescription>
-</custom-action>

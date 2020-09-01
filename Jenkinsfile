@@ -12,13 +12,11 @@ pipeline {
     TAG = "neotysdevopsdemo/${APP_NAME}"
     TAG_DEV = "${TAG}:DEV-${VERSION}"
     TAG_STAGING = "${TAG}-stagging:${VERSION}"
-    DYNATRACEID="${env.DT_ACCOUNTID}.live.dynatrace.com"
+    DYNATRACEID="https://${env.DT_ACCOUNTID}.live.dynatrace.com/"
     DYNATRACEAPIKEY="${env.DT_API_TOKEN}"
     NLAPIKEY="${env.NL_WEB_API_KEY}"
     NL_DT_TAG="app:${env.APP_NAME},environment:dev"
-    OUTPUTSANITYCHECK="$WORKSPACE/infrastructure/sanitycheck.json"
     NEOLOAD_ASCODEFILE="$WORKSPACE/test/neoload/user_neoload.yaml"
-    NEOLOAD_ANOMALIEDETECTIONFILE="$WORKSPACE/monspec/user_anomalieDection.json"
     DOCKER_COMPOSE_TEMPLATE="$WORKSPACE/infrastructure/infrastructure/neoload/docker-compose.template"
     DOCKER_COMPOSE_LG_FILE = "$WORKSPACE/infrastructure/infrastructure/neoload/docker-compose-neoload.yml"
     BASICCHECKURI="health"
@@ -111,48 +109,88 @@ pipeline {
                                         }
 
                             }
+      stage('NeoLoad Test')
+        {
+         agent {
+         docker {
+             image 'python:3-alpine'
+             reuseNode true
+          }
 
-    stage('Run functional check in dev') {
+            }
+        stages {
+             stage('Get NeoLoad CLI') {
+                          steps {
+                            withEnv(["HOME=${env.WORKSPACE}"]) {
 
+                             sh '''
+                                  export PATH=~/.local/bin:$PATH
+                                  pip3 install neoload
+                                  neoload --version
+                              '''
 
-      steps {
-          sleep 90
-
-          sh "mkdir $WORKSPACE/test/neoload/load_template/custom-resources/"
-          sh "cp $WORKSPACE/monspec/user_anomalieDection.json  $WORKSPACE/test/neoload/load_template/custom-resources/"
-
-
-          sh "sed -i 's/CHECK_TO_REPLACE/${BASICCHECKURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's/CUSTOMER_TO_REPLACE/${CUSTOMERURI}/' $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's/CARDS_TO_REPLACE/${CARDSURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's/HOST_TO_REPLACE/${env.APP_NAME}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's/PORT_TO_REPLACE/80/' $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's/DTID_TO_REPLACE/${DYNATRACEID}/' $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's/APIKEY_TO_REPLACE/${DYNATRACEAPIKEY}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's,JSONFILE_TO_REPLACE,user_anomalieDection.json,' $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's/TAGS_TO_REPLACE/${NL_DT_TAG}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-          sh "sed -i 's,OUTPUTFILE_TO_REPLACE,$WORKSPACE/infrastructure/sanitycheck.json,' $WORKSPACE/test/neoload/user_neoload.yaml"
-
-
-           sh "mkdir $WORKSPACE/test/neoload/neoload_project"
-          sh "cp $WORKSPACE/test/neoload/user_neoload.yaml $WORKSPACE/test/neoload/load_template/"
-          sh "cd $WORKSPACE/test/neoload/load_template/ ; zip -r $WORKSPACE/test/neoload/neoload_project/neoloadproject.zip ./*"
+                            }
+                          }
+            }
+            stage('Run functional check in dev') {
 
 
-           sh "docker run --rm \
-                     -v $WORKSPACE/test/neoload/neoload_project/:/neoload-project \
-                     -e NEOLOADWEB_TOKEN=$NLAPIKEY \
-                     -e TEST_RESULT_NAME=FuncCheck_user_${VERSION}_${BUILD_NUMBER} \
-                     -e SCENARIO_NAME=UserLoad \
-                     -e CONTROLLER_ZONE_ID=defaultzone \
-                     -e AS_CODE_FILES=user_neoload.yaml \
-                     -e LG_ZONE_IDS=defaultzone:1 \
-                     --network ${APP_NAME} --user root \
-                      neotys/neoload-web-test-launcher:latest"
+              steps {
+                  sleep 90
 
 
 
-      }
+                  sh "sed -i 's/CHECK_TO_REPLACE/${BASICCHECKURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                  sh "sed -i 's/CUSTOMER_TO_REPLACE/${CUSTOMERURI}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+                  sh "sed -i 's/CARDS_TO_REPLACE/${CARDSURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                  sh "sed -i 's/HOST_TO_REPLACE/${env.APP_NAME}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                  sh "sed -i 's/PORT_TO_REPLACE/80/' $WORKSPACE/test/neoload/user_neoload.yaml"
+                  sh "sed -i 's/DTID_TO_REPLACE/${DYNATRACEID}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+                  sh "sed -i 's/APIKEY_TO_REPLACE/${DYNATRACEAPIKEY}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                  sh "sed -i 's/TAGS_TO_REPLACE/${NL_DT_TAG}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+
+
+
+
+                  sh """
+                          export PATH=~/.local/bin:$PATH
+                          neoload \
+                          login --workspace "Default Workspace" $NLAPIKEY \
+                          test-settings  --zone defaultzone --scenario UserLoad  use UserDynatrace \
+                          project --path  $WORKSPACE/test/neoload/ upload
+                      """
+
+              }
+            }
+            stage('Run Test') {
+                              steps {
+                        withEnv(["HOME=${env.WORKSPACE}"]) {
+                          sh """
+                               export PATH=~/.local/bin:$PATH
+                               neoload run \
+                              --return-0 \
+                              --as-code user_neoload.yaml \
+                                PaymentDynatrace
+                             """
+                        }
+                      }
+             }
+             stage('Generate Test Report') {
+                      steps {
+                        withEnv(["HOME=${env.WORKSPACE}"]) {
+                            sh """
+                                 export PATH=~/.local/bin:$PATH
+                                 neoload test-results junitsla
+                               """
+                        }
+                      }
+                      post {
+                          always {
+                              junit 'junit-sla.xml'
+                          }
+                      }
+            }
+       }
     }
     stage('Mark artifact for staging namespace') {
         steps {

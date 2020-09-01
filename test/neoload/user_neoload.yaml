@@ -1,4 +1,8 @@
 name: user_neoload
+project_settings:
+  dynatrace.enabled: true
+  dynatrace.url: DTID_TO_REPLACE
+  dynatrace.token: APIKEY_TO_REPLACE
 variables:
 - constant:
     name: basicpath
@@ -15,21 +19,7 @@ variables:
 - constant:
     name: server_port
     value: PORT_TO_REPLACE
-- constant:
-    name: dynatraceApiKey
-    value: APIKEY_TO_REPLACE
-- constant:
-    name: dynatraceid
-    value: DTID_TO_REPLACE
-- constant:
-    name: jsonAnomalieDetectionFile
-    value: JSONFILE_TO_REPLACE
-- constant:
-    name: outPutReferenceFile
-    value: OUTPUTFILE_TO_REPLACE
-- constant:
-    name: TAGS
-    value: TAGS_TO_REPLACE
+
 servers:
 - name: catalogue_host
   host: ${server_host}
@@ -109,6 +99,14 @@ scenarios:
     constant_load:
       users: 1
       duration: 15 iterations
+  apm_configuration:
+    dynatrace_tags:
+    - TAGS_TO_REPLACE
+    dynatrace_anomaly_rules:
+    - metric_id: builtin:service.responsetime
+      operator: ABOVE
+      value: 100
+      severity: PERFORMANCE
 - name: UserLoad
   populations:
   - name: UserLoad
@@ -120,3 +118,11 @@ scenarios:
     constant_load:
       users: 1
       duration: 5m
+  apm_configuration:
+    dynatrace_tags:
+    - TAGS_TO_REPLACE
+    dynatrace_anomaly_rules:
+    - metric_id: builtin:service.responsetime
+      operator: ABOVE
+      value: 100
+      severity: PERFORMANCE

@@ -1,8 +1,0 @@
-<custom-action actionType="DynatraceSanityCheck" isHit="false"
-    name="DynatraceSanityCheck" uid="4f21a286-1a4e-4b39-9497-3e2537b2429a">
-    <custom-action-parameter name="dynatraceApiKey" type="TEXT" value="${dynatraceApiKey}"/>
-    <custom-action-parameter name="dynatraceId" type="TEXT" value="${dynatraceid}"/>
-    <custom-action-parameter name="tags" type="TEXT" value="${TAGS}"/>
-    <custom-action-parameter name="outPutReferenceFile" type="TEXT" value="${outPutReferenceFile}"/>
-    <responsePageFileDescription>recorded-responses/res_4f21a286-1a4e-4b39-9497-3e2537b2429a</responsePageFileDescription>
-</custom-action>

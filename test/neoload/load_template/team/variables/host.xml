@@ -1,3 +1,0 @@
-<variable-constant constantValue="35.180.172.93" name="host" order="1" policy="4" range="2" uid="67b3dba8-bc67-3810-9892-eb77249db32e" whenOutOfValues="CYCLE_VALUES">
-<description>host</description>
-</variable-constant>

@@ -1,5 +1,0 @@
-<me-host citrixSupport="false" loadWeight="1" sapSupport="false"
-    standalone="false" supportWANEmulation="false"
-    uid="samos.intranet.neotys.com" version="6.9.0 dev;build=branchHead-DEV">
-    <!--****** LG NETWORK INTERFACES ******-->
-</me-host>
