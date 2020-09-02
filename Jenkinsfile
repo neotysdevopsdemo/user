@@ -136,30 +136,31 @@ pipeline {
 
 
               steps {
-                  sleep 90
+                  withEnv(["HOME=${env.WORKSPACE}"]) {
+                      sleep 90
 
 
 
-                  sh "sed -i 's/CHECK_TO_REPLACE/${BASICCHECKURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-                  sh "sed -i 's/CUSTOMER_TO_REPLACE/${CUSTOMERURI}/' $WORKSPACE/test/neoload/user_neoload.yaml"
-                  sh "sed -i 's/CARDS_TO_REPLACE/${CARDSURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-                  sh "sed -i 's/HOST_TO_REPLACE/${env.APP_NAME}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-                  sh "sed -i 's/PORT_TO_REPLACE/80/' $WORKSPACE/test/neoload/user_neoload.yaml"
-                  sh "sed -i 's/DTID_TO_REPLACE/${DYNATRACEID}/' $WORKSPACE/test/neoload/user_neoload.yaml"
-                  sh "sed -i 's/APIKEY_TO_REPLACE/${DYNATRACEAPIKEY}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
-                  sh "sed -i 's/TAGS_TO_REPLACE/${NL_DT_TAG}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/CHECK_TO_REPLACE/${BASICCHECKURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/CUSTOMER_TO_REPLACE/${CUSTOMERURI}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/CARDS_TO_REPLACE/${CARDSURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/HOST_TO_REPLACE/${env.APP_NAME}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/PORT_TO_REPLACE/80/' $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/DTID_TO_REPLACE/${DYNATRACEID}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/APIKEY_TO_REPLACE/${DYNATRACEAPIKEY}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+                      sh "sed -i 's/TAGS_TO_REPLACE/${NL_DT_TAG}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
 
 
 
 
-                  sh """
-                          export PATH=~/.local/bin:$PATH
-                          neoload \
-                          login --workspace "Default Workspace" $NLAPIKEY \
-                          test-settings  --zone defaultzone --scenario UserLoad  use UserDynatrace \
-                          project --path  $WORKSPACE/test/neoload/ upload
-                      """
-
+                      sh """
+                              export PATH=~/.local/bin:$PATH
+                              neoload \
+                              login --workspace "Default Workspace" $NLAPIKEY \
+                              test-settings  --zone defaultzone --scenario UserLoad  use UserDynatrace \
+                              project --path  $WORKSPACE/test/neoload/ upload
+                          """
+                    }
               }
             }
             stage('Run Test') {
