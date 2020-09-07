@@ -157,7 +157,7 @@ pipeline {
                               export PATH=~/.local/bin:$PATH
                               neoload \
                               login --workspace "Default Workspace" $NLAPIKEY \
-                              test-settings  --zone defaultzone --scenario UserLoad  create UserDynatrace \
+                              test-settings  --zone defaultzone --scenario UserLoad  use UserDynatrace \
                               project --path  $WORKSPACE/test/neoload/ upload
                           """
                     }
