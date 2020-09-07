@@ -157,7 +157,7 @@ pipeline {
                               export PATH=~/.local/bin:$PATH
                               neoload \
                               login --workspace "Default Workspace" $NLAPIKEY \
-                              test-settings  --zone defaultzone --scenario UserLoad  use UserDynatrace \
+                              test-settings  --zone defaultzone --scenario UserLoad  create UserDynatrace \
                               project --path  $WORKSPACE/test/neoload/ upload
                           """
                     }
@@ -176,21 +176,7 @@ pipeline {
                         }
                       }
              }
-             stage('Generate Test Report') {
-                      steps {
-                        withEnv(["HOME=${env.WORKSPACE}"]) {
-                            sh """
-                                 export PATH=~/.local/bin:$PATH
-                                 neoload test-results junitsla
-                               """
-                        }
-                      }
-                      post {
-                          always {
-                              junit 'junit-sla.xml'
-                          }
-                      }
-            }
+
        }
     }
     stage('Mark artifact for staging namespace') {
