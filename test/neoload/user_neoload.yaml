@@ -97,7 +97,8 @@ scenarios:
       duration: 15 iterations
   apm_configuration:
     dynatrace_tags:
-    - TAGS_TO_REPLACE
+    - TAGS_TO_APP
+    - TAGS_ENV
     dynatrace_anomaly_rules:
     - metric_id: builtin:service.responsetime
       operator: ABOVE
@@ -112,7 +113,8 @@ scenarios:
       rampup: 30s
   apm_configuration:
     dynatrace_tags:
-    - TAGS_TO_REPLACE
+    - TAGS_TO_APP
+    - TAGS_ENV
     dynatrace_anomaly_rules:
     - metric_id: builtin:service.responsetime
       operator: ABOVE
